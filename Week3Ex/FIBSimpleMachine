@@ -1,0 +1,29 @@
+class SM:
+    def start(self):
+        self.state = self.startState
+        
+    def step(self, inp):
+        (s, o) = self.getNextValues(self.state, inp)
+        self.state = s
+        return o
+
+    def transduce(self, inputs):
+        self.start()
+        return [self.step(inp) for inp in inputs]
+
+class Fib(SM):
+    def __init__(self):
+        self.startState = 0
+        self.prevState = 0
+    def getNextValues(self, state, inp):
+        if inp == 0:
+            nextState = 0
+        elif inp == 1:
+            nextState = 1
+            self.prevState = 0
+        else:
+            nextState = state + self.prevState
+            self.prevState = state
+            
+        output = state + nextState
+        return (nextState,output)
